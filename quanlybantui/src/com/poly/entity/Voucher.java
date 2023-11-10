@@ -1,18 +1,21 @@
 package com.poly.entity;
 
+import java.util.Date;
+
 public class Voucher {
+
     private int id;
     private String ten;
     private int phanTramGiamGia;
-    private int dateBatDau;
-    private int dateKetThuc;
-    private int dateSua;
-    private int dateTao;
+    private Date dateBatDau;
+    private Date dateKetThuc;
+    private Date dateSua;
+    private Date dateTao;
 
     public Voucher() {
     }
 
-    public Voucher(int id, String ten, int phanTramGiamGia, int dateBatDau, int dateKetThuc, int dateSua, int dateTao) {
+    public Voucher(int id, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao) {
         this.id = id;
         this.ten = ten;
         this.phanTramGiamGia = phanTramGiamGia;
@@ -22,13 +25,21 @@ public class Voucher {
         this.dateTao = dateTao;
     }
 
-    public Voucher(String ten, int phanTramGiamGia, int dateBatDau, int dateKetThuc, int dateSua, int dateTao) {
+    public Voucher(String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao) {
         this.ten = ten;
         this.phanTramGiamGia = phanTramGiamGia;
         this.dateBatDau = dateBatDau;
         this.dateKetThuc = dateKetThuc;
         this.dateSua = dateSua;
         this.dateTao = dateTao;
+    }
+
+    public Voucher(int id, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc) {
+        this.id = id;
+        this.ten = ten;
+        this.phanTramGiamGia = phanTramGiamGia;
+        this.dateBatDau = dateBatDau;
+        this.dateKetThuc = dateKetThuc;
     }
 
     public int getId() {
@@ -55,42 +66,35 @@ public class Voucher {
         this.phanTramGiamGia = phanTramGiamGia;
     }
 
-    public int getDateBatDau() {
+    public Date getDateBatDau() {
         return dateBatDau;
     }
 
-    public void setDateBatDau(int dateBatDau) {
+    public void setDateBatDau(Date dateBatDau) {
         this.dateBatDau = dateBatDau;
     }
 
-    public int getDateKetThuc() {
+    public Date getDateKetThuc() {
         return dateKetThuc;
     }
 
-    public void setDateKetThuc(int dateKetThuc) {
+    public void setDateKetThuc(Date dateKetThuc) {
         this.dateKetThuc = dateKetThuc;
     }
 
-    public int getDateSua() {
+    public Date getDateSua() {
         return dateSua;
     }
 
-    public void setDateSua(int dateSua) {
+    public void setDateSua(Date dateSua) {
         this.dateSua = dateSua;
     }
 
-    public int getDateTao() {
+    public Date getDateTao() {
         return dateTao;
     }
 
-    public void setDateTao(int dateTao) {
+    public void setDateTao(Date dateTao) {
         this.dateTao = dateTao;
     }
-
-    @Override
-    public String toString() {
-        return "Voucher{" + "id=" + id + ", ten=" + ten + ", phanTramGiamGia=" + phanTramGiamGia + ", dateBatDau=" + dateBatDau + ", dateKetThuc=" + dateKetThuc + ", dateSua=" + dateSua + ", dateTao=" + dateTao + '}';
-    }
-    
-   
 }
