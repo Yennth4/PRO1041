@@ -16,7 +16,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="lb" alignment="0" pref="806" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="504" max="32767" attributes="0"/>
+              <Component id="lb" min="-2" pref="0" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -32,7 +35,7 @@
     <Component class="javax.swing.JLabel" name="lb">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="qu&#x1ea3;n l&#xfd; khuy&#x1ebf;n m&#x1ea1;i item 1"/>
+        <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch voucher n&#xe8; "/>
       </Properties>
     </Component>
   </SubComponents>

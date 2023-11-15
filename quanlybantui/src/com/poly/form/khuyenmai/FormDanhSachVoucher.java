@@ -6,9 +6,9 @@ import com.formdev.flatlaf.FlatClientProperties;
  *
  * @author Raven
  */
-public class FormQuanLyKhuyenMaiItem2 extends javax.swing.JPanel {
+public class FormDanhSachVoucher extends javax.swing.JPanel {
 
-    public FormQuanLyKhuyenMaiItem2() {
+    public FormDanhSachVoucher() {
         initComponents();
         lb.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$h1.font");
@@ -21,13 +21,15 @@ public class FormQuanLyKhuyenMaiItem2 extends javax.swing.JPanel {
         lb = new javax.swing.JLabel();
 
         lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lb.setText("quản lý khuyến mại item 2");
+        lb.setText("Danh sách voucher nè ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lb, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 504, Short.MAX_VALUE)
+                .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

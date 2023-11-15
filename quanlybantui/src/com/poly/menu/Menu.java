@@ -27,14 +27,14 @@ public class Menu extends JPanel {
     // tile menu tương ứng với phần tử đầu tiên trong object  (vd: Quản lý sản phẩm)
     // từ phần tử tiếp theo trong object sẽ là các menu item (vd: menu item qlsp 1)
     private final String menuItems[][] = {
-        {"~Nhóm 3~"},
+        {"~Phần mềm bán túi xách nữ da Velisa~"},
         {"Thống kê"},
         {"Quản lý sản phẩm", "Trang chủ", "Trang con 1", "Trang con 2"},
         {"Quản lý hóa đơn","Trang chủ", "Trang con 1", "Trang con 2"},
         {"Quản lý Đổi hàng","Trang chủ", "Trang con 1", "Trang con 2"},
         {"Quản lý nhân viên","Trang chủ", "Trang con 1", "Trang con 2"},
         {"Quản lý khách hàng","Trang chủ", "Trang con 1", "Trang con 2"},
-        {"Quản lý khuyến mãi","Trang chủ","Trang con 1", "Trang con 2"},
+        {"Quản lý khuyến mãi","Quản lý voucher","Lịch sử voucher", "Danh sách voucher"},
         {"Quản lý giao hàng","Trang chủ", "Trang con 1","Trang con 2"},
         {"Logout"}
     };
@@ -63,7 +63,7 @@ public class Menu extends JPanel {
 
     private final List<MenuEvent> events = new ArrayList<>();
     private boolean menuFull = true;
-    private final String headerName = "Nhóm 3 :))";
+    private final String headerName = "Velisa";
 
     protected final boolean hideMenuTitleOnMinimum = true;
     protected final int menuTitleLeftInset = 5;

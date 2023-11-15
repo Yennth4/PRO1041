@@ -5,41 +5,42 @@ import java.util.Date;
 public class Voucher {
 
     private int id;
+    private String ma;
     private String ten;
     private int phanTramGiamGia;
     private Date dateBatDau;
     private Date dateKetThuc;
     private Date dateSua;
     private Date dateTao;
+    private int soLuong;
+    private String trangThai;
 
     public Voucher() {
     }
 
-    public Voucher(int id, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao) {
+    public Voucher(int id, String ma, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao, int soLuong, String trangThai) {
         this.id = id;
+        this.ma = ma;
         this.ten = ten;
         this.phanTramGiamGia = phanTramGiamGia;
         this.dateBatDau = dateBatDau;
         this.dateKetThuc = dateKetThuc;
         this.dateSua = dateSua;
         this.dateTao = dateTao;
+        this.soLuong = soLuong;
+        this.trangThai = trangThai;
     }
 
-    public Voucher(String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao) {
+    public Voucher(String ma, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao, int soLuong, String trangThai) {
+        this.ma = ma;
         this.ten = ten;
         this.phanTramGiamGia = phanTramGiamGia;
         this.dateBatDau = dateBatDau;
         this.dateKetThuc = dateKetThuc;
         this.dateSua = dateSua;
         this.dateTao = dateTao;
-    }
-
-    public Voucher(int id, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc) {
-        this.id = id;
-        this.ten = ten;
-        this.phanTramGiamGia = phanTramGiamGia;
-        this.dateBatDau = dateBatDau;
-        this.dateKetThuc = dateKetThuc;
+        this.soLuong = soLuong;
+        this.trangThai = trangThai;
     }
 
     public int getId() {
@@ -97,4 +98,29 @@ public class Voucher {
     public void setDateTao(Date dateTao) {
         this.dateTao = dateTao;
     }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public String getMa() {
+        return ma;
+    }
+
+    public void setMa(String ma) {
+        this.ma = ma;
+    }
+    
 }
