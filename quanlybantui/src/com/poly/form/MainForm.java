@@ -30,7 +30,7 @@ import com.poly.form.hoadon.FormQuanLyHoaDon;
 import com.poly.form.hoadon.FormQuanLyHoaDonItem1;
 import com.poly.form.hoadon.FormQuanLyHoaDonItem2;
 import com.poly.form.khuyenmai.FormLichSuVoucher;
-import com.poly.form.khuyenmai.FormDanhSachVoucher;
+import com.poly.form.khuyenmai.FormTrangThaiVoucher;
 import com.poly.form.nhanvien.FormQuanLyNhanVienItem1;
 import com.poly.form.nhanvien.FormQuanLyNhanVienItem2;
 import com.poly.form.sanpham.FormQuanLySanPham;
@@ -142,7 +142,7 @@ public class MainForm extends JLayeredPane {
                 } else if (subIndex == 2) {
                     Application.showForm(new FormLichSuVoucher());
                 } else if (subIndex == 3) {
-                    Application.showForm(new FormDanhSachVoucher());
+                    Application.showForm(new FormTrangThaiVoucher());
                 }
             } else if (index == 7) {
                 if (subIndex == 1) {

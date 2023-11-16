@@ -97,12 +97,12 @@ public class LichSuVoucherRepository {
         }
     }
     
-    public List<LichSuVoucher> timKiemTheoTen(int ten) {
+    public List<LichSuVoucher> timKiemTheoIdVoucher(int id) {
         List<LichSuVoucher> listLichSuVoucher = new ArrayList<>();
         try {
             String query = "SELECT * FROM voucher_history WHERE id_voucher = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setObject(1,ten);
+            ps.setObject(1,id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 listLichSuVoucher.add(new LichSuVoucher(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getDate(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),rs.getString(8)));

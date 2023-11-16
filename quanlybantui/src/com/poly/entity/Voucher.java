@@ -7,6 +7,7 @@ public class Voucher {
     private int id;
     private String ma;
     private String ten;
+    private String loaiVoucher;
     private int phanTramGiamGia;
     private Date dateBatDau;
     private Date dateKetThuc;
@@ -18,10 +19,11 @@ public class Voucher {
     public Voucher() {
     }
 
-    public Voucher(int id, String ma, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao, int soLuong, String trangThai) {
+    public Voucher(int id, String ma, String ten, String loaiVoucher, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao, int soLuong, String trangThai) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
+        this.loaiVoucher = loaiVoucher;
         this.phanTramGiamGia = phanTramGiamGia;
         this.dateBatDau = dateBatDau;
         this.dateKetThuc = dateKetThuc;
@@ -31,9 +33,10 @@ public class Voucher {
         this.trangThai = trangThai;
     }
 
-    public Voucher(String ma, String ten, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao, int soLuong, String trangThai) {
+    public Voucher(String ma, String ten, String loaiVoucher, int phanTramGiamGia, Date dateBatDau, Date dateKetThuc, Date dateSua, Date dateTao, int soLuong, String trangThai) {
         this.ma = ma;
         this.ten = ten;
+        this.loaiVoucher = loaiVoucher;
         this.phanTramGiamGia = phanTramGiamGia;
         this.dateBatDau = dateBatDau;
         this.dateKetThuc = dateKetThuc;
@@ -41,6 +44,14 @@ public class Voucher {
         this.dateTao = dateTao;
         this.soLuong = soLuong;
         this.trangThai = trangThai;
+    }
+
+    public String getLoaiVoucher() {
+        return loaiVoucher;
+    }
+
+    public void setLoaiVoucher(String loaiVoucher) {
+        this.loaiVoucher = loaiVoucher;
     }
 
     public int getId() {
@@ -122,5 +133,5 @@ public class Voucher {
     public void setMa(String ma) {
         this.ma = ma;
     }
-    
+
 }

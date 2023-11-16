@@ -1,33 +1,63 @@
 ﻿CREATE DATABASE V2
 USE V2 
 
+-- Tạo bảng trang_thai_voucher
+CREATE TABLE trang_thai_voucher (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	ma_trang_thai NVARCHAR(100) NOT NULL,
+    ten_trang_thai NVARCHAR(100) NOT NULL,
+	mo_ta NVARCHAR(100)
+);
+
+-- Chèn dữ liệu vào bảng trang_thai_voucher
+INSERT INTO trang_thai_voucher (ma_trang_thai, ten_trang_thai, mo_ta)
+VALUES
+    ('TT001', N'Hoạt động', N'Voucher hiện đang hoạt động'),
+    ('TT002', N'Hết hạn', N'Voucher đã hết hạn'),
+    ('TT003', N'Đã sử dụng', N'Voucher đã được sử dụng');
+
+-- Tạo bảng loai_voucher
+CREATE TABLE loai_voucher (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	ma_loai NVARCHAR(100) NOT NULL,
+    ten_loai NVARCHAR(100) NOT NULL,
+	mo_ta NVARCHAR(100)
+);
+
+-- Chèn dữ liệu vào bảng loai_voucher
+INSERT INTO loai_voucher (ma_loai, ten_loai, mo_ta)
+VALUES
+    ('LV001', N'Giảm giá theo tiền', N'Voucher cung cấp giảm giá'),
+    ('LV002', N'Giảm giá theo phần trăm', N'Voucher tặng sản phẩm kèm theo mua hàng');
+
 CREATE TABLE voucher (
     id BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	ma_voucher NVARCHAR(100) NOT NULL,
     ten_voucher NVARCHAR(100) NOT NULL,
-    phan_tram_giam_gia INT NOT NULL,
+	loai_voucher BIGINT FOREIGN KEY REFERENCES loai_voucher(id),
+    muc_giam_gia INT NOT NULL,
     thoi_gian_bat_dau DATE NOT NULL,
     thoi_gian_ket_thuc DATE NOT NULL,
     thoi_gian_sua DATETIME NOT NULL DEFAULT GETDATE(),
     thoi_gian_tao DATETIME NOT NULL DEFAULT GETDATE(),
 	so_luong INT NOT NULL,
-	trang_thai NVARCHAR(100) NOT NULL
+	trang_thai BIGINT FOREIGN KEY REFERENCES trang_thai_voucher(id)
 );
 
--- Them 10 ban ghi bang voucher
-INSERT INTO voucher (ma_voucher,ten_voucher, phan_tram_giam_gia, thoi_gian_bat_dau, thoi_gian_ket_thuc, so_luong, trang_thai)
+-- Thêm 10 bản ghi cho bảng voucher
+INSERT INTO voucher (ma_voucher, ten_voucher, loai_voucher, muc_giam_gia, thoi_gian_bat_dau, thoi_gian_ket_thuc, so_luong, trang_thai)
 VALUES
-    (N'V1',N'Voucher01', 10, '2023-01-01', '2023-01-10', 100, N'Hoạt động'),
-    (N'V2',N'Voucher02', 15, '2023-02-01', '2023-02-15', 50, N'Hoạt động'),
-    (N'V3',N'Voucher03', 20, '2023-03-01', '2023-03-20', 200, N'Hoạt động'),
-    (N'V4',N'Voucher04', 5, '2023-10-01', '2023-10-10', 75, N'Hết hạn'),
-	(N'V5',N'Voucher05', 5, '2023-10-01', '2023-10-10', 75, N'Hết hạn'),
-    (N'V6',N'Voucher06', 25, '2023-06-01', '2023-06-15', 150, N'Hoạt động'),
-    (N'V7',N'Voucher07', 30, '2023-07-01', '2023-07-10', 80, N'Hoạt động'),
-    (N'V8',N'Voucher08', 15, '2023-08-01', '2023-08-20', 120, N'Hoạt động'),
-    (N'V9',N'Voucher09', 10, '2023-09-01', '2023-09-15', 50, N'Hết hạn'),
-    (N'V10',N'Voucher10', 5, '2023-10-01', '2023-10-10', 75, N'Hoạt động');
-
+    ('V001', 'Giảm 50k', 1, 50000, '2023-01-01', '2023-02-01', 100, 1),
+    ('V002', 'Giảm 10%', 2, 10, '2023-01-15', '2023-02-15', 200, 2),
+    ('V003', 'Giảm 100k', 1, 100000, '2023-02-01', '2023-03-01', 150, 1),
+    ('V004', 'Giảm 20%', 2, 20, '2023-02-15', '2023-03-15', 50, 2),
+    ('V005', 'Giảm 30k', 1, 30000, '2023-03-01', '2023-04-01', 120, 1),
+    ('V006', 'Giảm 15%', 2, 15, '2023-03-15', '2023-04-15', 80, 1),
+    ('V007', 'Giảm 200k', 1, 200000, '2023-04-01', '2023-05-01', 150, 2),
+	('V008', 'Giảm 25k', 1, 25000, '2023-04-15', '2023-05-15', 60, 1),
+    ('V009', 'Giảm 50%', 2, 50, '2023-05-01', '2023-06-01', 180, 2),
+    ('V010', 'Giảm 150k', 1, 150000, '2023-05-15', '2023-06-15', 100, 1);
+	
 	-- Tạo bảng voucher_history
 CREATE TABLE voucher_history (
     id BIGINT IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -64,3 +94,10 @@ SELECT * FROM
     (SELECT ROW_NUMBER() OVER (ORDER BY id) AS rownum,  * FROM voucher)
     AS temp
     WHERE rownum BETWEEN 1 AND 10
+
+	-- getAll
+	SELECT * FROM trang_thai_voucher ORDER BY id DESC
+
+	-- delete
+	DELETE FROM voucher WHERE trang_thai = 1;
+	DELETE FROM trang_thai_voucher WHERE id = 1;

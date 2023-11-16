@@ -33,7 +33,6 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         lb.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$h1.font");
         loadComboBoxThoiGian();
-        loadComboBoxPhanTram();
         listVoucher = service.getAll();
         fillTable(listVoucher);
         sanPham();
@@ -62,15 +61,6 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         }
     }
 
-    public void loadComboBoxPhanTram() {
-        DefaultComboBoxModel cbb = (DefaultComboBoxModel) cbbPhanTramGiamGia.getModel();
-        cbb.removeAllElements();
-        cbb.addElement("Chọn mức giảm giá");
-        for (int i = 0; i <= 100; i += 5) {
-            cbb.addElement(i);
-        }
-    }
-
     public void fillTable(List<Voucher> list) {
         DefaultTableModel dtm = (DefaultTableModel) tblVoucher.getModel();
         dtm.setRowCount(0);
@@ -79,6 +69,7 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                 voucher.getId(),
                 voucher.getMa(),
                 voucher.getTen(),
+                voucher.getLoaiVoucher(),
                 voucher.getPhanTramGiamGia(),
                 voucher.getSoLuong(),
                 voucher.getTrangThai(),
@@ -115,8 +106,8 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         txtMa.setText(v.getMa());
         txtTen.setText(v.getTen());
         txtSoLuong.setText(v.getSoLuong() + "");
-        cbbPhanTramGiamGia.setSelectedItem(v.getPhanTramGiamGia());
-
+        cbbLoaiGiamGia.setSelectedItem(v.getLoaiVoucher());
+        txtMucGiamGia.setText(v.getPhanTramGiamGia() + "");
         String trangThai = v.getTrangThai();
         if (trangThai.equalsIgnoreCase("Hết hạn")) {
             rdoHetHan.setSelected(true);
@@ -126,7 +117,6 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
 
         dateBatDau.setDate(v.getDateBatDau());
         dateKetThuc.setDate(v.getDateKetThuc());
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         lbThoiGianSua.setText(dateFormat.format(v.getDateSua()));
         lbThoiGianTao.setText(dateFormat.format(v.getDateTao()));
@@ -138,7 +128,7 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         txtTen.setText("");
         txtSoLuong.setText("");
         rdoHoatDong.setSelected(true);
-        cbbPhanTramGiamGia.setSelectedIndex(0);
+        cbbLoaiGiamGia.setSelectedIndex(0);
         dateBatDau.setDate(null);
         dateKetThuc.setDate(null);
         lbThoiGianSua.setText("");
@@ -161,6 +151,11 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không được để trống số lượng!!!");
             return null;
         }
+        String phanTramGiamGia = txtMucGiamGia.getText().trim();
+        if (phanTramGiamGia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống mức giảm giá!!!");
+            return null;
+        }
         String trangThai = rdoHoatDong.isSelected() ? "Hoạt động" : "Hết hạn";
         Date dateBatDau = this.dateBatDau.getDate();
         Date dateKetThuc = this.dateKetThuc.getDate();
@@ -180,8 +175,8 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         Date thoiGianTao = new Date();
         Date thoiGianSua = new Date();
 
-        String phanTramGiamGia = cbbPhanTramGiamGia.getSelectedItem().toString();
-        return new Voucher(ma, ten, Integer.valueOf(phanTramGiamGia), dateBatDau, dateKetThuc, dateBatDau, dateBatDau, Integer.valueOf(soLuong), trangThai);
+        String loaiVoucher = cbbLoaiGiamGia.getSelectedItem().toString();
+        return new Voucher(ma, ten, loaiVoucher, Integer.valueOf(phanTramGiamGia), dateBatDau, dateKetThuc, dateBatDau, dateBatDau, Integer.valueOf(soLuong), trangThai);
     }
 
     @SuppressWarnings("unchecked")
@@ -199,8 +194,6 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         txtMa = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        cbbPhanTramGiamGia = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
         cboSelectAll = new javax.swing.JCheckBox();
         btnDeSelectAll = new javax.swing.JButton();
         cbbHang = new javax.swing.JComboBox<>();
@@ -222,6 +215,9 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         txtTen = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        cbbLoaiGiamGia = new javax.swing.JComboBox<>();
+        txtMucGiamGia = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -238,7 +234,7 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVoucher = new javax.swing.JTable();
-        txtTimKiemVoucherTheoTen = new javax.swing.JTextField();
+        txtTimKiemVoucherTheoMa = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         cbbTimKiemTheoTrangThai = new javax.swing.JComboBox<>();
         btnSortGiamDan = new javax.swing.JButton();
@@ -248,6 +244,8 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         btnPrevious = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
         btnPageNext = new javax.swing.JButton();
+        cbbLocTheoLoaiVoucher = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -279,12 +277,6 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Mức giảm giá :");
-
-        cbbPhanTramGiamGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbbPhanTramGiamGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn mức giảm giá", " " }));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setText("%");
 
         cboSelectAll.setText("Select All");
         cboSelectAll.addActionListener(new java.awt.event.ActionListener() {
@@ -378,6 +370,14 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel15.setText("Tên khuyến mại :");
 
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel16.setText("Hình thức:");
+
+        cbbLoaiGiamGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbbLoaiGiamGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn hình thức giảm giá", "Giảm giá theo tiền", "Giảm giá theo phần trăm" }));
+
+        txtMucGiamGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -422,9 +422,14 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(rdoHoatDong)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rdoHetHan)))
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                                .addComponent(rdoHoatDong)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(rdoHetHan))
+                                            .addComponent(cbbLoaiGiamGia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(71, 71, 71)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -446,11 +451,8 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(23, 23, 23)
                                         .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(cbbPhanTramGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel8)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))))
+                                        .addGap(10, 10, 10)
+                                        .addComponent(txtMucGiamGia)))))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -475,15 +477,14 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                             .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(rdoHoatDong)
-                                .addComponent(rdoHetHan))))
+                                .addComponent(rdoHetHan))
+                            .addComponent(jLabel13)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbbPhanTramGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel8))
+                            .addComponent(txtMucGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -499,7 +500,13 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(lbThoiGianTao, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(1, 1, 1))
+                    .addComponent(cbbLoaiGiamGia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -628,7 +635,7 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Id", "Mã voucher", "Tên voucher", "Mức giảm giá", "Số lượng", "Trạng thái", "Thời gian bắt đầu", "Thời gian kết thúc"
+                "Id", "Mã voucher", "Tên voucher", "Hình thức giảm giá", "Mức giảm giá", "Số lượng", "Trạng thái", "Thời gian bắt đầu", "Thời gian kết thúc"
             }
         ));
         tblVoucher.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -643,13 +650,13 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tblVoucher);
 
-        txtTimKiemVoucherTheoTen.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTimKiemVoucherTheoMa.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTimKiemVoucherTheoTenKeyReleased(evt);
+                txtTimKiemVoucherTheoMaKeyReleased(evt);
             }
         });
 
-        jLabel12.setText("Tìm kiếm (tên voucher , mã voucher) : ");
+        jLabel12.setText("Tìm kiếm (mã voucher) : ");
 
         cbbTimKiemTheoTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hoạt động", "Hết hạn" }));
         cbbTimKiemTheoTrangThai.addActionListener(new java.awt.event.ActionListener() {
@@ -718,6 +725,17 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
             }
         });
 
+        cbbLocTheoLoaiVoucher.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbbLocTheoLoaiVoucher.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Giảm giá theo tiền", "Giảm giá theo phần trăm" }));
+        cbbLocTheoLoaiVoucher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbLocTheoLoaiVoucherActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel17.setText("Hình thức:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -734,10 +752,14 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                         .addComponent(locHoatDong)
                         .addGap(49, 49, 49)
                         .addComponent(locHetHan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbbLocTheoLoaiVoucher, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel12)
                         .addGap(33, 33, 33)
-                        .addComponent(txtTimKiemVoucherTheoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtTimKiemVoucherTheoMa, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnPagePrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -759,7 +781,9 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                     .addComponent(locHoatDong)
                     .addComponent(locHetHan)
                     .addComponent(jLabel12)
-                    .addComponent(txtTimKiemVoucherTheoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTimKiemVoucherTheoMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbLocTheoLoaiVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -893,7 +917,9 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
                 if (v != null) {
                     try {
                         int id = (int) tblVoucher.getValueAt(row, 0);
-                        service.sua(id, v);
+                        String trangThai = rdoHoatDong.isSelected() ? "Hoạt động" : "Hết hạn";
+                        String loaiVoucher = cbbLoaiGiamGia.getSelectedItem().toString();
+                        service.capNhat(v, loaiVoucher, trangThai, id);
                         listVoucher = service.getAll();
                         fillTable(listVoucher);
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Cập nhật voucher thành công");
@@ -914,7 +940,9 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
             Voucher v = getForm();
             if (v != null) {
                 try {
-                    service.them(v);
+                    String trangThai = rdoHoatDong.isSelected() ? "Hoạt động" : "Hết hạn";
+                    String loaiVoucher = cbbLoaiGiamGia.getSelectedItem().toString();
+                    service.them(v, loaiVoucher, trangThai);
                     listVoucher = service.getAll();
                     fillTable(listVoucher);
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Thêm voucher thành công");
@@ -931,22 +959,7 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThemActionPerformed
     // loc theo thoi gian 
     private void btnLocTheoThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocTheoThoiGianActionPerformed
-        /*    try {
-            Date dateBatDau = this.dateBatDau.getDate();
-            Date dateKetThuc = this.dateKetThuc.getDate();
-            if (dateBatDau == null) {
-                JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được để trống!!!");
-                return;
-            }
-            if (dateKetThuc == null) {
-                JOptionPane.showMessageDialog(this, "Ngày kết thúc không được để trống!!!");
-                return;
-            }
-            listVoucher = service.locTheoThoiGian(dateBatDau, dateKetThuc);
-            fillTable(listVoucher);
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-        } */
+        
     }//GEN-LAST:event_btnLocTheoThoiGianActionPerformed
 
     private void rdoHetHanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoHetHanActionPerformed
@@ -959,11 +972,11 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Làm mới dữ liệu thành công");
     }//GEN-LAST:event_btnSortGiamDanActionPerformed
 // loc theo ten
-    private void txtTimKiemVoucherTheoTenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemVoucherTheoTenKeyReleased
-        String ten = txtTimKiemVoucherTheoTen.getText().trim();
-        listVoucher = service.locTimKiemTheoTen(ten);
+    private void txtTimKiemVoucherTheoMaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemVoucherTheoMaKeyReleased
+        String ma = txtTimKiemVoucherTheoMa.getText().trim();
+        listVoucher = service.locTimKiemTheoMa(ma);
         fillTable(listVoucher);
-    }//GEN-LAST:event_txtTimKiemVoucherTheoTenKeyReleased
+    }//GEN-LAST:event_txtTimKiemVoucherTheoMaKeyReleased
 // loc theo trangThai
     private void cbbTimKiemTheoTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbTimKiemTheoTrangThaiActionPerformed
         String trangThai = (String) cbbTimKiemTheoTrangThai.getSelectedItem();
@@ -984,7 +997,7 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
     private void locHoatDongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locHoatDongActionPerformed
         String trangThai = "";
         cbbTimKiemTheoTrangThai.setSelectedIndex(0);
-        txtTimKiemVoucherTheoTen.setText("");
+        txtTimKiemVoucherTheoMa.setText("");
         if (locHetHan.isSelected()) {
             trangThai = "Hết hạn";
         } else if (locHoatDong.isSelected()) {
@@ -1038,6 +1051,17 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeSelectAllActionPerformed
 
+    private void cbbLocTheoLoaiVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbLocTheoLoaiVoucherActionPerformed
+        String loai = (String) cbbLocTheoLoaiVoucher.getSelectedItem();
+        if (!loai.equalsIgnoreCase("Tất cả")) {
+            listVoucher = service.locTimKiemTheoLoaiVoucher(loai);
+            fillTable(listVoucher);
+        } else {
+            listVoucher = service.getAll();
+            fillTable(listVoucher);
+        }
+    }//GEN-LAST:event_cbbLocTheoLoaiVoucherActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnDeSelectAll;
@@ -1053,7 +1077,8 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cbbHang;
-    private javax.swing.JComboBox<String> cbbPhanTramGiamGia;
+    private javax.swing.JComboBox<String> cbbLoaiGiamGia;
+    private javax.swing.JComboBox<String> cbbLocTheoLoaiVoucher;
     private javax.swing.JComboBox<String> cbbTimKiemTheoTrangThai;
     private javax.swing.JComboBox<String> cbbTimeBatDau;
     private javax.swing.JComboBox<String> cbbTimeKetThuc;
@@ -1067,13 +1092,14 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1095,9 +1121,10 @@ public class FormQuanLyVoucher extends javax.swing.JPanel {
     private javax.swing.JTable tblSanPham;
     private javax.swing.JTable tblVoucher;
     private javax.swing.JTextField txtMa;
+    private javax.swing.JTextField txtMucGiamGia;
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTen;
     private javax.swing.JTextField txtTimKiemSanPham;
-    private javax.swing.JTextField txtTimKiemVoucherTheoTen;
+    private javax.swing.JTextField txtTimKiemVoucherTheoMa;
     // End of variables declaration//GEN-END:variables
 }

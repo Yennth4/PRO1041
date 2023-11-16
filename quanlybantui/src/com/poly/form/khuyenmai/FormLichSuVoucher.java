@@ -564,8 +564,8 @@ public class FormLichSuVoucher extends javax.swing.JPanel {
         String tenString = txtTimKiemTheoTen.getText().trim();
         if (!tenString.isEmpty()) {
             try {
-                int ten = Integer.parseInt(tenString);
-                listLichSuVoucher = service.timKiemTheoTen(ten);
+                int id = Integer.parseInt(tenString);
+                listLichSuVoucher = service.timKiemTheoIdVoucher(id);
                 fillTable(listLichSuVoucher);
                 if (!listLichSuVoucher.isEmpty()) {
                     show(0);
