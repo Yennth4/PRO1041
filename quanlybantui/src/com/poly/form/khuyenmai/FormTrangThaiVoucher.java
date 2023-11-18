@@ -7,6 +7,8 @@ import com.poly.repository.LoaiRepository;
 import com.poly.repository.TrangThaiRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class FormTrangThaiVoucher extends javax.swing.JPanel {
@@ -39,6 +41,7 @@ public class FormTrangThaiVoucher extends javax.swing.JPanel {
             dtm.addRow(rowData);
         }
     }
+
     public void fillTableLoai(List<LoaiVoucher> list) {
         DefaultTableModel dtm = (DefaultTableModel) tblLoai.getModel();
         dtm.setRowCount(0);
@@ -54,20 +57,37 @@ public class FormTrangThaiVoucher extends javax.swing.JPanel {
     }
 
     public void showTrangThai(int index) {
-        TrangThaiVoucher trangThai = listTrangThai.get(index);
+        TrangThaiVoucher trangThai = serviceTrangThai.getAll().get(index);
         txtId.setText(trangThai.getIdTrangThai() + "");
         txtMaTT.setText(trangThai.getMaTrangThai());
         txtTenTT.setText(trangThai.getTenTrangThai());
         txtMoTaTT.setText(trangThai.getMoTaTrangThai());
     }
-    
+
     public void showLoai(int index) {
-        LoaiVoucher loai = listLoai.get(index);
+        LoaiVoucher loai = serviceLoai.getAll().get(index);
         txtId1.setText(loai.getIdLoai() + "");
         txtMaL.setText(loai.getMaLoai());
         txtTenL.setText(loai.getTenLoai());
         txtMoTaL.setText(loai.getMoTaLoai());
     }
+
+    public TrangThaiVoucher getForm() {
+        String ma = txtMaTT.getText();
+        String ten = txtTenTT.getText();
+        String moTa = txtMoTaTT.getText();
+
+        return new TrangThaiVoucher(ma, ten, moTa);
+    }
+
+    public LoaiVoucher getFormL() {
+        String ma = txtMaL.getText();
+        String ten = txtTenL.getText();
+        String moTa = txtMoTaL.getText();
+
+        return new LoaiVoucher(ma, ten, moTa);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -140,12 +160,32 @@ public class FormTrangThaiVoucher extends javax.swing.JPanel {
         jScrollPane2.setViewportView(txtMoTaTT);
 
         btnThemTrangThai.setText("Thêm");
+        btnThemTrangThai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemTrangThaiActionPerformed(evt);
+            }
+        });
 
         btnSuaTrangThai.setText("Sửa");
+        btnSuaTrangThai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaTrangThaiActionPerformed(evt);
+            }
+        });
 
         btnXoaTrangThai.setText("Hủy");
+        btnXoaTrangThai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaTrangThaiActionPerformed(evt);
+            }
+        });
 
         btnClearTrangThai.setText("Clear");
+        btnClearTrangThai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearTrangThaiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -299,12 +339,27 @@ public class FormTrangThaiVoucher extends javax.swing.JPanel {
         jScrollPane3.setViewportView(txtMoTaL);
 
         btnThemL.setText("Thêm");
+        btnThemL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemLActionPerformed(evt);
+            }
+        });
 
         btnSuaL.setText("Sửa");
 
         btnXoaL.setText("Hủy");
+        btnXoaL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaLActionPerformed(evt);
+            }
+        });
 
         btnClearL.setText("Clear");
+        btnClearL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearLActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -474,6 +529,92 @@ public class FormTrangThaiVoucher extends javax.swing.JPanel {
         int row = tblLoai.getSelectedRow();
         showLoai(row);
     }//GEN-LAST:event_tblLoaiMouseClicked
+
+    private void btnThemTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemTrangThaiActionPerformed
+        TrangThaiVoucher t = getForm();
+        try {
+            serviceTrangThai.them(t);
+            fillTableTrangThai(serviceTrangThai.getAll());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnThemTrangThaiActionPerformed
+
+    private void btnSuaTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaTrangThaiActionPerformed
+        int row = tblTrangThai.getSelectedRow();
+        if (row > -1) {
+            int id = Integer.valueOf(tblTrangThai.getSelectedRow());
+            TrangThaiVoucher t = getForm();
+            try {
+                serviceTrangThai.sua(id, t);
+                fillTableTrangThai(serviceTrangThai.getAll());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnSuaTrangThaiActionPerformed
+
+    private void btnXoaTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaTrangThaiActionPerformed
+        int row = tblTrangThai.getSelectedRow();
+        if (row > -1) {
+            int id = Integer.valueOf(tblTrangThai.getValueAt(row, 0).toString());
+            try {
+                serviceTrangThai.xoa(id);
+                fillTableTrangThai(serviceTrangThai.getAll());
+                txtId.setText("");
+                txtMaTT.setText("");
+                txtTenTT.setText("");
+                txtMoTaTT.setText("");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            return;
+        }
+    }//GEN-LAST:event_btnXoaTrangThaiActionPerformed
+
+    private void btnClearTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearTrangThaiActionPerformed
+        txtId.setText("");
+        txtMaTT.setText("");
+        txtTenTT.setText("");
+        txtMoTaTT.setText("");
+    }//GEN-LAST:event_btnClearTrangThaiActionPerformed
+
+    private void btnThemLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLActionPerformed
+        LoaiVoucher l = getFormL();
+        try {
+            serviceLoai.them(l);
+            fillTableLoai(serviceLoai.getAll());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnThemLActionPerformed
+
+    private void btnXoaLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLActionPerformed
+        int row = tblLoai.getSelectedRow();
+        if (row > -1) {
+            int id = Integer.valueOf(tblLoai.getValueAt(row, 0).toString());
+            try {
+                serviceLoai.xoa(id);
+                fillTableLoai(serviceLoai.getAll());
+                txtId1.setText("");
+                txtMaL.setText("");
+                txtTenL.setText("");
+                txtMoTaL.setText("");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            return;
+        }
+    }//GEN-LAST:event_btnXoaLActionPerformed
+
+    private void btnClearLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearLActionPerformed
+        txtId1.setText("");
+        txtMaL.setText("");
+        txtTenL.setText("");
+        txtMoTaL.setText("");
+    }//GEN-LAST:event_btnClearLActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClearL;

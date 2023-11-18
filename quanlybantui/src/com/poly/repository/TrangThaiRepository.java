@@ -59,7 +59,7 @@ public class TrangThaiRepository {
 
     public void sua(int id, TrangThaiVoucher v) throws Exception {
         try {
-            String query = "UPDATE trang_thai_voucher SET ma_trang_thai= ?, ten_trang_thai = ?, mo_ta = ?";
+            String query = "UPDATE trang_thai_voucher SET ma_trang_thai= ?, ten_trang_thai = ?, mo_ta = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setObject(1, v.getMaTrangThai());
             ps.setObject(2, v.getTenTrangThai());

@@ -47,16 +47,16 @@ CREATE TABLE voucher (
 -- Thêm 10 bản ghi cho bảng voucher
 INSERT INTO voucher (ma_voucher, ten_voucher, loai_voucher, muc_giam_gia, thoi_gian_bat_dau, thoi_gian_ket_thuc, so_luong, trang_thai)
 VALUES
-    ('V001', 'Giảm 50k', 1, 50000, '2023-01-01', '2023-02-01', 100, 1),
-    ('V002', 'Giảm 10%', 2, 10, '2023-01-15', '2023-02-15', 200, 2),
-    ('V003', 'Giảm 100k', 1, 100000, '2023-02-01', '2023-03-01', 150, 1),
-    ('V004', 'Giảm 20%', 2, 20, '2023-02-15', '2023-03-15', 50, 2),
-    ('V005', 'Giảm 30k', 1, 30000, '2023-03-01', '2023-04-01', 120, 1),
-    ('V006', 'Giảm 15%', 2, 15, '2023-03-15', '2023-04-15', 80, 1),
-    ('V007', 'Giảm 200k', 1, 200000, '2023-04-01', '2023-05-01', 150, 2),
-	('V008', 'Giảm 25k', 1, 25000, '2023-04-15', '2023-05-15', 60, 1),
-    ('V009', 'Giảm 50%', 2, 50, '2023-05-01', '2023-06-01', 180, 2),
-    ('V010', 'Giảm 150k', 1, 150000, '2023-05-15', '2023-06-15', 100, 1);
+    ('V001', N'Giảm 50k', 1, 50000, '2023-01-01', '2023-02-01', 100, 1),
+    ('V002', N'Giảm 10%', 2, 10, '2023-01-15', '2023-02-15', 200, 2),
+    ('V003', N'Giảm 100k', 1, 100000, '2023-02-01', '2023-03-01', 150, 1),
+    ('V004', N'Giảm 20%', 2, 20, '2023-02-15', '2023-03-15', 50, 2),
+    ('V005', N'Giảm 30k', 1, 30000, '2023-03-01', '2023-04-01', 120, 1),
+    ('V006', N'Giảm 15%', 2, 15, '2023-03-15', '2023-04-15', 80, 1),
+    ('V007', N'Giảm 200k', 1, 200000, '2023-04-01', '2023-05-01', 150, 2),
+	('V008', N'Giảm 25k', 1, 25000, '2023-04-15', '2023-05-15', 60, 1),
+    ('V009', N'Giảm 50%', 2, 50, '2023-05-01', '2023-06-01', 180, 2),
+    ('V010', N'Giảm 150k', 1, 150000, '2023-05-15', '2023-06-15', 100, 1);
 	
 	-- Tạo bảng voucher_history
 CREATE TABLE voucher_history (
@@ -96,8 +96,32 @@ SELECT * FROM
     WHERE rownum BETWEEN 1 AND 10
 
 	-- getAll
-	SELECT * FROM trang_thai_voucher ORDER BY id DESC
+	SELECT ten_trang_thai FROM trang_thai_voucher ORDER BY id DESC
+	SELECT ten_loai FROM loai_voucher
+-- loc theo trang thai
+	SELECT v.id ,ma_voucher,ten_voucher ,l.ten_loai ,muc_giam_gia,thoi_gian_bat_dau,thoi_gian_ket_thuc,thoi_gian_sua,thoi_gian_tao,so_luong,t.ten_trang_thai FROM voucher v 
+	JOIN loai_voucher l ON l.id = v.loai_voucher
+	JOIN trang_thai_voucher t ON t.id = v.trang_thai
+	WHERE t.ten_trang_thai LIKE N'Hoạt động'
 
-	-- delete
-	DELETE FROM voucher WHERE trang_thai = 1;
-	DELETE FROM trang_thai_voucher WHERE id = 1;
+
+	INSERT INTO voucher (ma_voucher, ten_voucher, loai_voucher, muc_giam_gia, thoi_gian_bat_dau, thoi_gian_ket_thuc, so_luong, trang_thai)
+	VALUES ('V1','VOUCHER1',2,10,'2023-01-01', '2023-02-01',10,1);
+
+	-- Chèn dữ liệu vào bảng voucher với thông tin từ trang_thai_voucher và loai_voucher
+INSERT INTO voucher (ma_voucher, ten_voucher, loai_voucher, muc_giam_gia, thoi_gian_bat_dau, thoi_gian_ket_thuc, so_luong, trang_thai)
+SELECT 
+    'V011', 
+    N'Giảm 25%', 
+    lv.id AS loai_voucher, 
+    25 AS muc_giam_gia, 
+    '2023-06-15' AS thoi_gian_bat_dau, 
+    '2023-07-15' AS thoi_gian_ket_thuc, 
+    80 AS so_luong, 
+    tt.id AS trang_thai
+FROM 
+    loai_voucher lv,
+    trang_thai_voucher tt
+WHERE 
+    lv.ten_loai = N'Giảm giá theo phần trăm' AND 
+    tt.ten_trang_thai = N'Hoạt động';
